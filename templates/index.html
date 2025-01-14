@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personality Prediction</title>
+</head>
+<body>
+    <h1>Personality Prediction</h1>
+    <form method="POST">
+        <label for="text_input">Enter text:</label>
+        <textarea name="text_input" id="text_input" rows="4" cols="50"></textarea>
+        <br>
+        <input type="submit" value="Predict">
+    </form>
+
+    {% if prediction %}
+        <h3>Predicted Personality: {{ prediction }}</h3>
+        <p>{{ description }}</p>
+        <p>Input text: {{ user_input }}</p>
+    {% endif %}
+</body>
+</html>
