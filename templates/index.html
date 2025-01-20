@@ -6,18 +6,39 @@
     <title>Personality Prediction</title>
 </head>
 <body>
-    <h1>Personality Prediction</h1>
-    <form method="POST">
-        <label for="text_input">Enter text:</label>
-        <textarea name="text_input" id="text_input" rows="4" cols="50"></textarea>
-        <br>
-        <input type="submit" value="Predict">
-    </form>
+    <h1>Personality Type Prediction</h1>
 
-    {% if prediction %}
-        <h3>Predicted Personality: {{ prediction }}</h3>
-        <p>{{ description }}</p>
-        <p>Input text: {{ user_input }}</p>
-    {% endif %}
+    <label for="text-input">Enter Text:</label>
+    <textarea id="text-input" rows="4" cols="50"></textarea><br><br>
+
+    <button onclick="predictPersonality()">Predict Personality</button>
+
+    <h3 id="prediction-result"></h3>
+
+    <script>
+        function predictPersonality() {
+            var textInput = document.getElementById('text-input').value;
+
+            // Create the data object to send to Flask
+            var data = {
+                text: textInput
+            };
+
+            // Send a POST request to Flask
+            fetch('/predict', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Display the result in the HTML
+                document.getElementById('prediction-result').innerText = 'Predicted Personality: ' + data.prediction;
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
 </body>
 </html>

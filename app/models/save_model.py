@@ -1,15 +1,26 @@
 import pickle
+import pandas as pd
 from sklearn.svm import SVC
 from sklearn.feature_extraction.text import TfidfVectorizer
 
-# Replace with your actual trained model and vectorizer
-# If you already have a trained model, you can use it directly here
-model = SVC(kernel='linear')  # Example, replace with your actual model
-vectorizer = TfidfVectorizer()  # Example, replace with your actual vectorizer
+# Load your dataset (replace the path with the correct one)
+data = pd.read_csv("C:/Users/gelsa/Personality_project/datasets/mbti.csv")
+
+# Preprocess the data (assuming 'posts' are the text and 'type' is the target)
+X = data['posts']
+y = data['type']
+
+# Vectorize the text data using TfidfVectorizer
+vectorizer = TfidfVectorizer(max_features=5000)
+X_vectorized = vectorizer.fit_transform(X)
+
+# Train the SVM model
+svm_model = SVC(kernel='linear')
+svm_model.fit(X_vectorized, y)
 
 # Save the model and vectorizer
 with open('svm_model.pkl', 'wb') as model_file:
-    pickle.dump(model, model_file)
+    pickle.dump(svm_model, model_file)
 
 with open('vectorizer.pkl', 'wb') as vec_file:
     pickle.dump(vectorizer, vec_file)

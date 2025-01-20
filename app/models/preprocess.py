@@ -1,5 +1,3 @@
-# preprocess.py
-
 import string
 from sklearn.feature_extraction.text import TfidfVectorizer
 from nltk.corpus import stopwords
@@ -33,4 +31,4 @@ def preprocess_data(text_data):
     tfidf_vectorizer = TfidfVectorizer(max_features=5000)  # Limit the features for better performance
     tfidf_matrix = tfidf_vectorizer.fit_transform(cleaned_text)
 
-    return tfidf_matrix
+    return tfidf_matrix, tfidf_vectorizer

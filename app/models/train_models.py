@@ -1,24 +1,27 @@
-import joblib
+import pickle
 import pandas as pd
 from sklearn.svm import SVC
-from sklearn.feature_extraction.text import CountVectorizer
+from preprocess import preprocess_data
 
-# Load the dataset (update the path if needed)
-
+# Load your dataset (replace the path with the correct one)
 data = pd.read_csv("C:/Users/gelsa/Personality_project/datasets/mbti.csv")
 
 # Preprocess the data (assuming 'posts' are the text and 'type' is the target)
 X = data['posts']
 y = data['type']
 
-# Vectorize the text data using CountVectorizer
-vectorizer = CountVectorizer(stop_words='english')
-X_vectorized = vectorizer.fit_transform(X)
+# Preprocess the text data using the preprocess function
+X_vectorized, vectorizer = preprocess_data(X)
 
 # Train the SVM model
-svm_model = SVC()
+svm_model = SVC(kernel='linear')
 svm_model.fit(X_vectorized, y)
 
 # Save the model and vectorizer
-joblib.dump(svm_model, 'svm_model.pkl')
-joblib.dump(vectorizer, 'vectorizer.pkl')
+with open('svm_model.pkl', 'wb') as model_file:
+    pickle.dump(svm_model, model_file)
+
+with open('vectorizer.pkl', 'wb') as vec_file:
+    pickle.dump(vectorizer, vec_file)
+
+print("Model and vectorizer saved successfully!")
